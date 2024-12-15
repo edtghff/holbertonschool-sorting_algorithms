@@ -1,9 +1,9 @@
 #include "sort.h"
 
 /**
- * selection_sort - impelentation of selection sorting algorithm
- * @array: array
- * @size: size of array
+ * selection_sort - Implementation of selection sorting algorithm
+ * @array: Array
+ * @size: Size of array
  */
 
 void selection_sort(int *array, size_t size)
