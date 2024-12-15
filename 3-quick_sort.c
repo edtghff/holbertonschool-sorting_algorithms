@@ -1,77 +1,48 @@
 #include "sort.h"
-/**
- * swap - swaps two integers
- * @first: first integer
- * @second: second integer
- */
-void swap(int *first, int *second)
-{
-	int temp = *first;
-	*first = *second;
-	*second = temp;
-}
-/**
- * partition - partitions array using lomuto scheme
- * @arr: array to partition
- * @size: size of array
- * @low: low index
- * @high: high index
- * Return: index of pivot
- */
-int partition(int *arr, size_t size, ssize_t low, ssize_t high)
-{
-	ssize_t i, j;
-	int pivot;
 
-	pivot = arr[high];
-
-	i = low - 1;
-
-	for (j = low; j < high; j++)
-	{
-		if (arr[j] < pivot)
-		{
-			i++;
-			if (i != j)
-			{
-				swap(&arr[i], &arr[j]);
-				print_array(arr, size);
-			}
-		}
-	}
-	if (arr[high] < arr[i + 1])
-	{
-		swap(&arr[i + 1], &arr[j]);
-		print_array(arr, size);
-	}
-	return (i + 1);
-}
-/**
- * sort - sorts array using lomuto scheme
- * @arr: array to sort
- * @size: size of array
- * @low: low index
- * @high: high index
- */
-void sort(int *arr, size_t size, ssize_t low, ssize_t high)
-{
-	int pivot;
-
-	if (low < high)
-	{
-		pivot = partition(arr, size, low, high);
-		sort(arr, size, low, pivot - 1);
-		sort(arr, size, pivot + 1, high);
-	}
-}
-/**
-  * quick_sort - sorts an array of integers in ascending order
-  * @array: array of numbers
-  * @size: size of array
-  */
 void quick_sort(int *array, size_t size)
 {
-	if (array == NULL)
-		return;
-	sort(array, size, 0, size - 1);
+    if (size < 2)
+        return;
+
+    quick_sort_recursive(array, 0, size - 1, size);
 }
+
+void quick_sort_recursive(int *array, ssize_t low, ssize_t high, size_t size)
+{
+    ssize_t pivot;
+
+    if (low < high)
+    {
+        pivot = lomuto_partition(array, low, high, size);
+        quick_sort_recursive(array, low, pivot - 1, size);
+        quick_sort_recursive(array, pivot + 1, high, size);
+    }
+}
+
+ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high, size_t size)
+{
+    int pivot = array[high];
+    ssize_t i = low - 1;
+    int tmp;
+
+    for (ssize_t j = low; j < high; j++)
+    {
+        if (array[j] < pivot)
+        {
+            i++;
+            tmp = array[i];
+            array[i] = array[j];
+            array[j] = tmp;
+            print_array(array, size);
+        }
+    }
+
+    tmp = array[i + 1];
+    array[i + 1] = array[high];
+    array[high] = tmp;
+    print_array(array, size);
+
+    return i + 1;
+}
+

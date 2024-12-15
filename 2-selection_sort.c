@@ -1,27 +1,23 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "sort.h"
 
 void selection_sort(int *array, size_t size)
 {
-    size_t n, z, y;
-    int temp;
+    size_t i, j, min_idx;
+    int tmp;
 
-    for (n = 0; n < size - 1; n++)
+    for (i = 0; i < size - 1; i++)
     {
-        z = n;
-        for (y = n + 1; y < size; y++)
+        min_idx = i;
+        for (j = i + 1; j < size; j++)
         {
-            if (array[y] < array[z])
-                z = y;
+            if (array[j] < array[min_idx])
+                min_idx = j;
         }
-        
-        if (z != n)
+        if (min_idx != i)
         {
-            temp = array[z];
-            array[z] = array[n];
-            array[n] = temp;
-
+            tmp = array[i];
+            array[i] = array[min_idx];
+            array[min_idx] = tmp;
             print_array(array, size);
         }
     }
