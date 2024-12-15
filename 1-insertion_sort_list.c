@@ -1,38 +1,35 @@
 #include "sort.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 /**
- * selection_sort - sorting array elements by ascending order
- *
- * @array: list of numbers
- * @size: number of elements in array
- *
- *
- *
+ *insertion_sort_list - ins sort algoritm
+ *@list: double linked list
  */
-
-
-void selection_sort(int *array, size_t size)
+void insertion_sort_list(listint_t **list)
 {
-size_t n = 0, z, y;
-int temp;
+	listint_t *current, *tmp;
 
-while (n < size)
-{
-	z = n;
-	y = n + 1;
-	while (y < size)
+	current = (*list)->next;
+
+	while (current)
 	{
-		if (array[y] < array[z])
-			z = y;
-		y++;
+		tmp = current->next;
+		while (current->prev && current->n < current->prev->n)
+		{
+			current->prev->next = current->next;
+			if (current->next)
+			{
+				current->next->prev = current->prev;
+			}
+			current->next = current->prev;
+			current->prev = current->prev->prev;
+			current->next->prev = current;
+		if (current->prev == NULL)
+			(*list) = current;
+		else
+			current->prev->next = current;
+		print_list(*list);
+		}
+		current = tmp;
 	}
-	if (z != n)
-	{
-		temp = array[z];
-		array[z] = array[n];
-		array[n] = temp;
-		print_array(array, size);
-	}
-	n++;
-}
 }
